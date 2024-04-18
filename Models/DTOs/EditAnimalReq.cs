@@ -1,13 +1,14 @@
-﻿namespace apbd_cw06.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Animal
+namespace apbd_cw06.Models.DTOs;
+
+public class EditAnimalReq
 {
-    public int IdAnimal { get; set; }
+    [Required]
     public string Name { get; set; }
-    
     public string? Description { get; set; }
-    
+    [Required]
     public string Category { get; set; }
-    
+    [Required]
     public string Area { get; set; }
 }

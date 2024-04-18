@@ -65,4 +65,39 @@ public class AnimalsController : ControllerBase
         command.ExecuteNonQuery();
         return Created("", null);
     }
+    
+    [HttpPut("{idAnimal:int}")]
+    public IActionResult EditAnimal(int idAnimal, EditAnimalReq animal)
+    {
+        //otwieramy polaczenie do bazy
+        SqlConnection conn = new SqlConnection(_config.GetConnectionString("Default"));
+        conn.Open();
+        //definicja commanda
+        SqlCommand command = new SqlCommand();
+        command.Connection = conn;
+        command.CommandText = $"UPDATE Animal SET Name = @animalName, Description = @animalDescription, Category = @animalCategory, Area = @animalArea WHERE IdAnimal = @idAnimal";
+        command.Parameters.AddWithValue("@idAnimal", idAnimal);
+        command.Parameters.AddWithValue("@animalName", animal.Name);
+        command.Parameters.AddWithValue("@animalDescription", animal.Description);
+        command.Parameters.AddWithValue("@animalCategory", animal.Category);
+        command.Parameters.AddWithValue("@animalArea", animal.Area);
+        //wykonanie commanda
+        command.ExecuteNonQuery();
+        return Ok();
+    }
+
+    [HttpDelete("{idAnimal:int}")]
+    public IActionResult DeleteAnimal(int idAnimal)
+    {
+        SqlConnection conn = new SqlConnection(_config.GetConnectionString("Default"));
+        conn.Open();
+        //definicja commanda
+        SqlCommand command = new SqlCommand();
+        command.Connection = conn;
+        command.CommandText = $"DELETE FROM Animal WHERE IdAnimal = @idAnimal";
+        command.Parameters.AddWithValue("@idAnimal", idAnimal);
+        //wykonanie commanda
+        command.ExecuteNonQuery();
+        return Ok();
+    }
 }
